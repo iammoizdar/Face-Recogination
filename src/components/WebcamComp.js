@@ -91,41 +91,66 @@ const WebcamComp = () => {
           () => {}
         );
     });
- const takePhoto = ({sendFile}) => { 
-        const context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, 680, 360);
-        canvas.toBlob(sendFile);
-        console.log(sendFile)
-    };
+//  const takePhoto = () => { 
+//         const context = canvas.getContext('2d');
+//         context.drawImage(video, 0, 0, 680, 360);
+//         canvas.toBlob(sendFile);
+        
+//     };
+
+const takesnapshot= ()=>{
+  let contextz = canvas.getContext('2d');
+      contextz.drawImage(video, 0, 0, canvas.width,
+          canvas.height);
+      console.log(contextz.canvas.toDataURL());
+
+}
+
   return (
     <div>
       {!camera && (
         <button
           style={{
             padding: 20,
-            fontSize: 14
+            fontSize: 14,
+            position: 'absolute',
+            bottom: 20,
           }}
           onClick={() => {
             start();
+        
           }}
         >
           Launch Camera
         </button>
       )}
       <video
-        style={{ position: "absolute", top: 70, left: 10 }}
         ref={videoRef}
+        className="Video"
         />
       <canvas
-        style={{ position: "absolute", top: 70, left: 10 }}
         ref={canvasRef}
+        className="Video"
       />
+      {/* <button
+          style={{
+            padding: 20,
+            fontSize: 14
+          }}
+          onClick={() => {
+          takesnapshot()
+        
+          }}
+        >
+          Launch Camera
+        </button> */}
       {loading && (
         <div
           style={{
-            position: "absolute",
-            top: 70,
-            left: 10,
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
             width: 320,
             height: 240,
             background: "rgba(0,0,0,0.5)",
@@ -139,7 +164,7 @@ const WebcamComp = () => {
           Loading
         </div>
       )}
-      {camera && <h2>Face Detected : {detected ? takePhoto() : "False"}</h2>}
+      {camera && detected ? takesnapshot() : console.log}
     </div>
   );
 };

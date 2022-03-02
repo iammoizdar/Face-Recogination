@@ -5,27 +5,28 @@
 }
 
 body {
-  width: 100%;
-}
-
-.app__videoFeed {
-  border: 8px solid #FFF;
-  border-radius: 44px;
-}
-
-.app {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: rgb(0, 0, 0);
+  color: #fff;
+  position: relative;
 }
 
-.app__container {
-  margin-top: 10px;
-  width: 500px;
-  height: 500px;
+.App {
+  display: flex;
+  flex-direction: column-reverse;
+  /* position: relative; */
 }
 
-.app__input {
-  margin-top: 10px;
+
+.Video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  transform: translate(-50%, -50%);
 }
