@@ -1,40 +1,103 @@
-import React from "react"
-import ReactDropzoneUploader from "react-dropzone-uploader"
-const styles = {
-  dropzoneActive: {
-    borderColor: 'green',
-  },
-}
+import React, { useState } from "react";
 
-const Caruploader = () => {
-  const getUploadParams = ({ meta }) => {
-    const url = 'https://httpbin.org/post'
-    const fileUrl = `${url}/${encodeURIComponent(meta.name)}`
-    return { url, meta: { fileUrl } }
-  }
+ 
+const CardUploader=({setData})=>{
+  const [file,setFile]=useState(null) 
+  const [base64Url,setBase64Url]=useState('')
 
-  const handleChangeStatus = ({ meta, file }, status) => {
-    console.log(status, meta, file)
-  }
+   const  getBase64 = file => {
+    return new Promise(resolve => {
+      
+      let baseURL = "";
+      setBase64Url(baseURL)
+      // Make new FileReader
+      let reader = new FileReader();
 
-  const handleSubmit = (files, allFiles) => {
-    console.log(files.map(f => f.meta))
-    allFiles.forEach(f => f.remove())
-  }
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
 
-  return (
+      // on reader load somthing...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        
+        baseURL = reader.result;
+        console.log(base64Url);
+        resolve(baseURL);
+      
+        
+      }
+    
+    });
+  };
 
-    <div className="uploader">
-        <ReactDropzoneUploader
-          getUploadParams={getUploadParams}
-          onChangeStatus={handleChangeStatus}
-          onSubmit={handleSubmit}
-          styles={styles}
-          height={200}
-        />
+ const  handleFileInputChange = e => {
+  
+  setFile( e.target.files[0])
+   getBase64( e.target.files[0])
+      .then(card_image => {
+        // file["base64"] = result;
+        console.log({card_image})
+        setBase64Url(card_image)
+        setFile(e.target.files[0])
+        console.log(file)
+        setData((prev)=>({...prev,card_image:card_image}))
+        // setData((prev)=>({...prev,cameraImg:result}))
+   
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
-    </div>
+  return(
+  <div>
+        <form onSubmit={getBase64}>
+        <input type="file" name="file" onChange={handleFileInputChange}/>
+        <button>Submit</button>
+        </form>
+      </div>
   )
 }
 
-export default Caruploader
+    // var axios = require('axios');
+    //     var data = JSON.stringify(obj);
+    //     console.log(data)
+    //     var config = {
+    //     method: 'post',
+    //     url: 'http://192.168.0.117:5000/verification',
+    //     headers: {
+    //     'Content-Type': 'application/json'
+    //     },
+    //     data : data
+    //     };
+        
+    //     axios(config)
+    //     .then(function (response) {
+    //     console.log(JSON.stringify(response.data));
+    //     })
+    //     .catch(function (error) {
+    //     console.log(error);
+    //     });
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export default CardUploader;

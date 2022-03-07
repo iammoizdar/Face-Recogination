@@ -26,7 +26,16 @@ body {
 .Video {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 20%;
   width: 600px;
   transform: translate(-50%, -50%);
+}
+
+
+.uploader {
+  padding: 20px;
+  font-size: 14px;
+  position: absolute;
+  right: 26%;
+  top: 312px;
 }
