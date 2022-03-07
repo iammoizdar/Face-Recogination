@@ -18,7 +18,7 @@ console.log(dataresult)
 
 var config = {
 method: 'post',
-url: 'http://192.168.0.102:4000/verification',
+url: 'https://192.168.0.102:4000/verification',
 headers: {
 'Content-Type': 'application/json'
 },

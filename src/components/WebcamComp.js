@@ -43,7 +43,7 @@ if (video.readyState === 4) {
 const faces = await detectSingleFace(
 video,
 getFaceDetectorOptions()
-).withFaceLandmarks(true);
+)
 setLoading(false);
 if (faces) {
 setDetected(true);
@@ -52,9 +52,7 @@ const resizedResults = resizeResults(faces, dims);
 if (true) {
 draw.drawDetections(canvas, resizedResults);
 }
-if (true) {
-draw.drawFaceLandmarks(canvas, resizedResults);
-}
+
 } else {
 setDetected(false);
 ctx.clearRect(0, 0, video.videoWidth, video.videoHeight);
@@ -101,17 +99,24 @@ resolve();
 
 
 
-const takesnapshot= ()=>{
-let contextz = canvas.getContext('2d');
-contextz.drawImage(video, 0, 0, canvas.width,
-canvas.height);
-let selfie = contextz.canvas.toDataURL();
-console.log(selfie);
-setData((prev)=>({...prev,selfie:selfie}))
+const Takesnapshot= ()=>{
+
+
+
+  let contextz = canvas.getContext('2d');
+  contextz.drawImage(video, 0, 0, canvas.width,
+  canvas.height);
+  let selfie = contextz.canvas.toDataURL();
+  console.log(selfie);
+  setData((prev)=>({...prev,selfie:selfie}))
 
 
 
 
+}
+
+const scan=()=>{
+  setTimeout(()=>(Takesnapshot()), 3000)
 }
 
 return (
@@ -151,7 +156,8 @@ return (
     Loading
   </div>
   )}
-  {camera && detected ? (takesnapshot()) : "false"}
+  
+  {camera && detected ? <button onClick={scan}>Scan</button> : console.log('notdetected')}
 </div>
 );
 };
