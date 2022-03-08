@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import Caruploader from './components/Carduploader';
 import WebcamComp from './components/WebcamComp';
+import swal from 'sweetalert';
 function App() {
 const [data,setData]=useState({card_image:'',selfie:''})
 
@@ -18,7 +19,7 @@ console.log(dataresult)
 
 var config = {
 method: 'post',
-url: 'https://192.168.0.102:4000/verification',
+url: 'http://192.168.100.198:5000/verification',
 headers: {
 'Content-Type': 'application/json'
 },
@@ -28,7 +29,7 @@ data : dataresult
 axios(config)
 .then(function (response) {
 console.log(JSON.stringify(response.data));
-})
+response.data.is_verified ? swal("Match Found!","Wanna Try Again!", "success") : swal("Match Not Found", "Try Again!", "error")
 .catch(function (error) {
 console.log(error);
 });
@@ -36,12 +37,13 @@ console.log(error);
 
 
 
+)}
 
   return (
     <div className="App">
     <Caruploader setData={setData}/>
     <WebcamComp setData={setData}/>
-    <button onClick={runfunction}>Send</button>
+    <button className='button1' onClick={runfunction}>Send</button>
     </div>
   );
 }
