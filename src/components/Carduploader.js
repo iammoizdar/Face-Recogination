@@ -28,6 +28,7 @@ const CardUploader = ({ setData }) => {
   const handleFileInputChange = (e) => {
     setFile(e.target.files[0]);
     getBase64(e.target.files[0])
+    // console.log(base64Url)
       .then((card_image) => {
         // file["base64"] = result;
         console.log({ card_image });

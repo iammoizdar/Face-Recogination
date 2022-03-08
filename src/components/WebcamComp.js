@@ -117,13 +117,22 @@ const WebcamComp = ({ setData }) => {
     if (setTimeout(() => Takesnapshot(), 3000)) return;
   };
 
-  !camera && start();
+  // {(!camera && photoUpload() ? start(): '')}
+  // {!camera && (
+  //   <button className="button1 scan" onClick={()=> {
+  //     start();
+  
+  //     }}
+  //     >
+  //     Launch Camera
+  //   </button>
+  //   )}
   return (
     <div>
       <video ref={videoRef} className="Video" />
       <canvas ref={canvasRef} className="Video" />
-
-      {camera && detected ? scan() : console.log("")}
+  {/* <button className="scan" onClick={start}>Scan</button> */}
+      {/* {camera && detected ? scan() : console.log("")} */}
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./App.css";
-import Caruploader from "./components/Carduploader";
 import WebcamComp from "./components/WebcamComp";
 import swal from "sweetalert";
+import CardProfile from "./components/CardProfile";
 function App() {
   const [data, setData] = useState({ card_image: "", selfie: "" });
 
@@ -39,11 +39,9 @@ function App() {
 
   return (
     <div className="App">
-      <Caruploader setData={setData} />
       <WebcamComp setData={setData} />
-      <button className="button1" onClick={runfunction}>
-        Send
-      </button>
+    
+      <CardProfile setData={setData} runfunction={runfunction}/>
     </div>
   );
 }
