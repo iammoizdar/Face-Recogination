@@ -9,7 +9,7 @@ import {
   loadFaceLandmarkTinyModel,
 } from "face-api.js";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 const WebcamComp = ({ setData, runfunction }) => {
   const [video, setVideo] = useState(null);
   const [canvas, setCanvas] = useState(null);
@@ -17,8 +17,8 @@ const WebcamComp = ({ setData, runfunction }) => {
   const [camera, setCamera] = useState(false);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [snapshot, setsnapshot] = useState();
 
+  let navigate = useNavigate();
   useEffect(() => {
     setVideo(videoRef.current);
     setCanvas(canvasRef.current);
@@ -98,25 +98,12 @@ const WebcamComp = ({ setData, runfunction }) => {
     let contextz = canvas.getContext("2d");
     contextz.drawImage(video, 0, 0, canvas.width, canvas.height);
     let selfie = contextz.canvas.toDataURL();
-    setsnapshot(selfie);
-    console.log(snapshot);
+    console.log(selfie);
     setData((prev) => ({ ...prev, selfie: selfie }));
+    setCamera(false);
+    setDetected(false);
   };
-
-  const initialSeconds = 3;
-  const [seconds, setSeconds] = useState(initialSeconds);
-  useEffect(() => {
-    let myInterval = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
-      }
-    }, 1000);
-    return () => {
-      clearInterval(myInterval);
-    };
-  });
-
-  const scan = () => {
+  const scan = async () => {
     // if (setTimeout(() => Takesnapshot(), 3000)) return;
     // if (Takesnapshot) document.getElementById("webcam").style.display = "none";
     // setTimeout(() => Takesnapshot(), 5000);
@@ -126,7 +113,12 @@ const WebcamComp = ({ setData, runfunction }) => {
     //   x.style.display = "none";
     //   launchCamera()
     // }
-    if (Takesnapshot) return;
+
+    await Takesnapshot();
+    // if (Takesnapshot) return;
+
+    if (Takesnapshot) handleClick();
+    return;
   };
 
   // {(!camera && photoUpload() ? start(): '')}
@@ -139,6 +131,10 @@ const WebcamComp = ({ setData, runfunction }) => {
   //     Launch Camera
   //   </button>
   //   )}
+  function handleClick() {
+    navigate("/Validation", { replace: true });
+  }
+
   !camera && start();
   return (
     <div className="card">
@@ -146,12 +142,11 @@ const WebcamComp = ({ setData, runfunction }) => {
         <video ref={videoRef} className="Video" />
         <canvas ref={canvasRef} className="Video" />
       </div>
-      {detected ? scan() : console.log("")}
+
       {/* {scan() ? (document.getElementById("webcam").style.display = "none") : ""} */}
+      {detected ? scan() : console.log("notdetected")}
+
       <div>
-        <a href="#" className="button1 submit" onClick={runfunction}>
-          Submit
-        </a>
         <Link className="button1" to="/">
           Back
         </Link>

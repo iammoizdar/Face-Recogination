@@ -1,9 +1,10 @@
 import { useState } from "react";
 import "./App.css";
 import swal from "sweetalert";
-import CardProfile from "./components/CardProfile";
+import CardProfile, { Edit } from "./components/CardProfile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WebcamComp from "./components/WebcamComp";
+import Validation from "./Validation";
 function App() {
   const [data, setData] = useState({ card_image: "", selfie: "" });
 
@@ -44,9 +45,10 @@ function App() {
         <Routes>
           <Route path="/" element={<CardProfile setData={setData} />} />
           <Route
-            path="Webcam"
-            element={<WebcamComp setData={setData} runfunction={runfunction} />}
+            path="/Validation"
+            element={<Edit runfunction={runfunction} name="Back" />}
           />
+          <Route path="Webcam" element={<WebcamComp setData={setData} />} />
         </Routes>
       </BrowserRouter>
     </div>

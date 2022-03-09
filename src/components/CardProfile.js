@@ -22,14 +22,17 @@ const ImgUpload = ({ onChange, src }) => (
 //     </form>
 //   </div>
 
-const Edit = ({ children }) => (
+export const Edit = ({ children, name, runfunction }) => (
   <div className="card">
     <form>
       <h1>Card Recognition</h1>
       {children}
       <Link className="button1" to="/Webcam">
-        Next
+        {name}
       </Link>
+      <a href="#" className="button1 submit" onClick={runfunction}>
+        Submit
+      </a>
     </form>
   </div>
 );
@@ -98,7 +101,7 @@ const CardProfile = ({ setData }) => {
   return (
     <div>
       {active === "edit" ? (
-        <Edit>
+        <Edit name="Next">
           <ImgUpload onChange={photoUpload} src={imagePreviewUrl} />
         </Edit>
       ) : (
