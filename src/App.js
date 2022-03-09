@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./App.css";
-import WebcamComp from "./components/WebcamComp";
 import swal from "sweetalert";
 import CardProfile from "./components/CardProfile";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import WebcamComp from "./components/WebcamComp";
 function App() {
   const [data, setData] = useState({ card_image: "", selfie: "" });
 
@@ -18,7 +19,7 @@ function App() {
 
     var config = {
       method: "post",
-      url: "http://192.168.0.103:5000/verification",
+      url: "http://192.168.100.25:5000/verification",
       headers: {
         "Content-Type": "application/json",
       },
@@ -39,9 +40,15 @@ function App() {
 
   return (
     <div className="App">
-      <WebcamComp setData={setData} />
-    
-      <CardProfile setData={setData} runfunction={runfunction}/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<CardProfile setData={setData} />} />
+          <Route
+            path="Webcam"
+            element={<WebcamComp setData={setData} runfunction={runfunction} />}
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

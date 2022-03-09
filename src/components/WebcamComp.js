@@ -8,14 +8,16 @@ import {
   draw,
   loadFaceLandmarkTinyModel,
 } from "face-api.js";
+import { Link } from "react-router-dom";
 
-const WebcamComp = ({ setData }) => {
+const WebcamComp = ({ setData, runfunction }) => {
   const [video, setVideo] = useState(null);
   const [canvas, setCanvas] = useState(null);
   const [detected, setDetected] = useState(false);
   const [camera, setCamera] = useState(false);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const [snapshot, setsnapshot] = useState();
 
   useEffect(() => {
     setVideo(videoRef.current);
@@ -96,7 +98,8 @@ const WebcamComp = ({ setData }) => {
     let contextz = canvas.getContext("2d");
     contextz.drawImage(video, 0, 0, canvas.width, canvas.height);
     let selfie = contextz.canvas.toDataURL();
-    console.log(selfie);
+    setsnapshot(selfie);
+    console.log(snapshot);
     setData((prev) => ({ ...prev, selfie: selfie }));
   };
 
@@ -114,25 +117,45 @@ const WebcamComp = ({ setData }) => {
   });
 
   const scan = () => {
-    if (setTimeout(() => Takesnapshot(), 3000)) return;
+    // if (setTimeout(() => Takesnapshot(), 3000)) return;
+    // if (Takesnapshot) document.getElementById("webcam").style.display = "none";
+    // setTimeout(() => Takesnapshot(), 5000);
+
+    // var x = document.getElementById("webcam");
+    // if (snapshot) {
+    //   x.style.display = "none";
+    //   launchCamera()
+    // }
+    if (Takesnapshot) return;
   };
 
   // {(!camera && photoUpload() ? start(): '')}
   // {!camera && (
   //   <button className="button1 scan" onClick={()=> {
   //     start();
-  
+
   //     }}
   //     >
   //     Launch Camera
   //   </button>
   //   )}
+  !camera && start();
   return (
-    <div>
-      <video ref={videoRef} className="Video" />
-      <canvas ref={canvasRef} className="Video" />
-  {/* <button className="scan" onClick={start}>Scan</button> */}
-      {/* {camera && detected ? scan() : console.log("")} */}
+    <div className="card">
+      <div className="webcam" id="webcam">
+        <video ref={videoRef} className="Video" />
+        <canvas ref={canvasRef} className="Video" />
+      </div>
+      {detected ? scan() : console.log("")}
+      {/* {scan() ? (document.getElementById("webcam").style.display = "none") : ""} */}
+      <div>
+        <a href="#" className="button1 submit" onClick={runfunction}>
+          Submit
+        </a>
+        <Link className="button1" to="/">
+          Back
+        </Link>
+      </div>
     </div>
   );
 };
