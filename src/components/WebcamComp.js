@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   loadTinyFaceDetectorModel,
   detectSingleFace,
@@ -10,7 +10,37 @@ import {
 } from "face-api.js";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-const WebcamComp = ({ setData, runfunction }) => {
+import swal from "sweetalert";
+import { DataContext } from "../App";
+const axios = require("axios");
+
+const WebcamComp = () => {
+  const { data } = React.useContext(DataContext);
+  console.log(data);
+  const [newData, setnewData] = useState({ card_image: "", selfie: "" });
+  const runfunction = () => {
+    var dataresult = JSON.stringify(data);
+    //  setData((prev) => ({ ...prev, card_image: card_image }));
+    console.log(newData);
+    var config = {
+      method: "post",
+      url: "http://192.168.100.25:5000/verification",
+      headers: {},
+      "Content-Type": "application/json",
+      data: dataresult,
+    };
+
+    axios(config).then(function (response) {
+      response.data.is_verified
+        ? swal("Match Found!", "Wanna Try Again!", "success")
+        : swal("Match Not Found", "Try Again!", "error").catch(function (
+            error
+          ) {
+            console.log(error);
+          });
+    });
+  };
+
   const [video, setVideo] = useState(null);
   const [canvas, setCanvas] = useState(null);
   const [detected, setDetected] = useState(false);
@@ -95,45 +125,63 @@ const WebcamComp = ({ setData, runfunction }) => {
     });
 
   const Takesnapshot = () => {
+    console.log("Takesnapshot: ---");
     let contextz = canvas.getContext("2d");
     contextz.drawImage(video, 0, 0, canvas.width, canvas.height);
     let selfie = contextz.canvas.toDataURL();
     console.log(selfie);
-    setData((prev) => ({ ...prev, selfie: selfie }));
+    // setData(() => ({ selfie: selfie }));
+    setnewData((prev) => ({ ...prev, selfie: selfie }));
+
     setCamera(false);
     setDetected(false);
-  };
-  const scan = async () => {
-    // if (setTimeout(() => Takesnapshot(), 3000)) return;
-    // if (Takesnapshot) document.getElementById("webcam").style.display = "none";
-    // setTimeout(() => Takesnapshot(), 5000);
-
-    // var x = document.getElementById("webcam");
-    // if (snapshot) {
-    //   x.style.display = "none";
-    //   launchCamera()
-    // }
-
-    await Takesnapshot();
-    // if (Takesnapshot) return;
-
-    if (Takesnapshot) handleClick();
-    return;
+    if (Takesnapshot) {
+      runfunction();
+      navigate("/Validation", { replace: true });
+    }
   };
 
-  // {(!camera && photoUpload() ? start(): '')}
-  // {!camera && (
-  //   <button className="button1 scan" onClick={()=> {
-  //     start();
+  // function handleClick() {
+  //   console.log("handleClick: ---");
+  //   navigate("/Validation", { replace: true });
+  //   // setTimeout(() => runfunction(), 3000);
+  //   // if (runfunction()) return;
+  //   runfunction();
+  // }
 
-  //     }}
-  //     >
-  //     Launch Camera
-  //   </button>
-  //   )}
-  function handleClick() {
-    navigate("/Validation", { replace: true });
+  // const scan = async () => {
+  //   console.log("scan: ---");
+  //   // setTimeout(() => Takesnapshot(), 3000);
+  //   await wait(2000);
+  //   Takesnapshot();
+
+  //   // if (Takesnapshot) handleClick();
+  // };
+
+  // const f = async () => {
+  //   if (detected) {
+  //     await wait(2000);
+  //     scan();
+  //   } else console.log("not working");
+  // };
+  // f();
+
+  async function scan() {
+    await wait(2000);
+    Takesnapshot();
   }
+
+  useEffect(() => {
+    if (detected) {
+      scan();
+      setCamera(null);
+      setVideo(null);
+    }
+  }, [detected]);
+
+  // setInterval(() => {
+  //   Takesnapshot();
+  // }, 2000);
 
   !camera && start();
   return (
@@ -142,10 +190,6 @@ const WebcamComp = ({ setData, runfunction }) => {
         <video ref={videoRef} className="Video" />
         <canvas ref={canvasRef} className="Video" />
       </div>
-
-      {/* {scan() ? (document.getElementById("webcam").style.display = "none") : ""} */}
-      {detected ? scan() : console.log("notdetected")}
-
       <div>
         <Link className="button1" to="/">
           Back

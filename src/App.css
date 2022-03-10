@@ -90,7 +90,9 @@ form {
 
 
 
-
+.swal-button {
+  max-width: 68px;
+}
 
 
 
