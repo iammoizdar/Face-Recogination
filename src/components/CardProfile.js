@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { DataContext } from "../App";
+// import { DataContext } from "../App";
 
 const ImgUpload = ({ onChange, src }) => (
   <label htmlFor="photo-upload" className="custom-file-upload fas">
@@ -36,8 +36,8 @@ export const Edit = ({ children, name }) => (
   </div>
 );
 
-const CardProfile = () => {
-  const { setData } = React.useContext(DataContext);
+const CardProfile = ({ setData }) => {
+  // const { setData } = React.useContext(DataContext);
   const [file, setFile] = useState(null);
   const [base64Url, setBase64Url] = useState("");
   const [active, setactive] = useState("edit");
