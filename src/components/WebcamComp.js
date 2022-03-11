@@ -103,14 +103,16 @@ const WebcamComp = ({ setData, data, runfunction }) => {
   //     runfunction();
   //   }
   // };
-  const Takesnapshot = () => {
+  const Takesnapshot = async () => {
     let contextz = canvas.getContext("2d");
     contextz.drawImage(video, 0, 0, canvas.width, canvas.height);
     let selfie = contextz.canvas.toDataURL();
-
     setData((prev) => ({ ...prev, selfie: selfie }));
+
     setCamera(false);
     setDetected(false);
+
+    return selfie;
   };
 
   // function handleClick() {
@@ -137,19 +139,17 @@ const WebcamComp = ({ setData, data, runfunction }) => {
   //   } else console.log("not working");
   // };
   // f();
-  console.log("data", data);
 
   async function scan() {
     await wait(2000);
-    Takesnapshot();
+    const selfie = await Takesnapshot();
 
     if (Takesnapshot) {
+      runfunction(selfie);
       navigate("/Validation", { replace: true });
-
-      runfunction();
     }
+    return;
   }
-
   useEffect(() => {
     if (detected) {
       scan();
