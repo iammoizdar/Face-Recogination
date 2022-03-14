@@ -72,16 +72,6 @@ form {
   grid-gap: 13px;
 }
 
-.countDown {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 100px;
-  border: 2px solid #fff;
-  border-radius: 50px;
-}
-
 
 
 .submit {
@@ -95,27 +85,13 @@ form {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* Adding More Styles */
 
 body {
   font-family: 'Hind Guntur', sans-serif;
-  color: #054231;
+  color: #000;
   display: flex;
   justify-content: center;
-  background: #49afa8;
-  background-image: url('https://github.com/OlgaKoplik/CodePen/blob/master/leaf.png?raw=true');
   background-repeat: no-repeat, no-repeat;
   background-position: 200% -40%;
   background-size: 80%;
@@ -127,12 +103,11 @@ body {
   width: 610px;
   height: 627px;
   padding: 15px;
-  margin-top: 40px;
   border-radius: 25px;
   display: flex;
   justify-content: center;
   box-shadow: 15px 10px 25px 0px #3fa1a9;
-  background: #fff;
+  background: #aae15d;
   background-image: url('https://github.com/OlgaKoplik/CodePen/blob/master/leaf2.png?raw=true'), url('https://github.com/OlgaKoplik/CodePen/blob/master/leaf.png?raw=true');
   background-repeat: no-repeat, no-repeat;
   background-position: 120% -5%, 200% -40%;
@@ -169,14 +144,13 @@ input[type="file"] {
 }
 
 .custom-file-upload {
-  border-radius: 19%;
+  border-radius: 11%;
   display: inline-block;
   position: relative;
   width: 100%;
   min-width: 287px;
   padding: 25px;
   cursor: pointer;
-  background: linear-gradient(270deg, #3fa1a9, #79f1a4);
   margin-bottom: 25px;
 }
 
@@ -185,7 +159,7 @@ input[type="file"] {
   width: 100%;
   height: 200px;
   overflow: hidden;
-  border-radius: 50%;
+  border-radius: 12px;
 }
 
 .img-upload:before {
@@ -197,7 +171,6 @@ input[type="file"] {
   text-align: center;
   width: 287px;
   height: 200px;
-  border-radius: 50%;
   opacity: 0;
   transition: .5s ease;
   background-color: #fff;
@@ -310,3 +283,60 @@ button:focus {
 .lds-ripple div:nth-child(2) {
   animation-delay: -0.5s;
 }
+
+
+.logo {
+
+  width: 100%;
+  object-fit: contain;
+
+}
+
+
+
+/* 
+
+#outer {
+  margin: auto;
+  margin-top: 15%;
+  background: #44b9fc;
+  height: 100px;
+  width: 100px;
+  border-radius: 15px;
+  z-index: 999999;
+}
+
+#middle {
+  height: 60px;
+  width: 60px;
+  margin: auto;
+  position: relative;
+  top: 20px;
+  border-radius: 50%;
+  background-image: linear-gradient(150deg, transparent 50%, #154e7d 50%), linear-gradient(90deg, #154e7d 50%, white 50%);
+  -webkit-animation: rotation 1200ms infinite linear;
+  transform-origin: 50% 50%;
+  animation-timing-function: ease;
+  z-index: 999999;
+}
+
+#inner {
+  background: #44b9fc;
+  height: 48px;
+  width: 48px;
+  margin: auto;
+  position: relative;
+  top: 6px;
+  border-radius: 50%;
+  z-index: 999999;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(270deg);
+  }
+
+  to {
+    -webkit-transform: rotate(630deg);
+  }
+} */

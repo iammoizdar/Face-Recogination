@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
-
+import logo from "./images/logo-plastk.png";
+import Loading from "./components/Loading";
 import CardProfile, { Edit } from "./components/CardProfile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WebcamComp from "./components/WebcamComp";
@@ -8,8 +9,8 @@ import swal from "sweetalert";
 
 function App() {
   const [data, setData] = useState({ card_image: "", selfie: "" });
+
   const runfunction = (selfie) => {
-    // console.log("new state one", { data });
     var axios = require("axios");
     const newData = {
       card_image: data?.card_image,
@@ -20,7 +21,7 @@ function App() {
 
     var config = {
       method: "post",
-      url: "http://192.168.0.103:5000/verification",
+      url: "http://3.97.132.230:5000/verification",
       headers: {
         "Content-Type": "application/json",
       },
@@ -28,18 +29,26 @@ function App() {
     };
 
     axios(config).then(function (response) {
-      console.log(JSON.stringify(response.data));
+      let apiresponse = JSON.stringify(response.data);
+      console.log(apiresponse);
+
       response.data.is_verified
-        ? swal("Match Found!", "Verified!", "success")
-        : swal("Match Not Found", "Invalid!", "error").catch(function (error) {
+        ? swal("Match Found!", "User is verified!", "success")
+        : swal(
+            "Match Not Found",
+            `${JSON.stringify(response.data.message)}`,
+            "error"
+          ).catch(function (error) {
             console.log(error);
           });
     });
   };
-  console.log("new state one", { data });
 
   return (
     <div className="App">
+      <div>
+        <img className="logo" src={logo} alt="" />
+      </div>
       <BrowserRouter>
         {/* <DataContext.Provider
           value={{
@@ -61,7 +70,6 @@ function App() {
             }
           />
         </Routes>
-        {/* </DataContext.Provider> */}
       </BrowserRouter>
     </div>
   );
